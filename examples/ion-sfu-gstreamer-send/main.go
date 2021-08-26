@@ -31,6 +31,7 @@ func main() {
 	if codec != "vp8" && codec != "h264" {
 		log.Fatal("No valid codec provided")
 	}
+	mimeType := fmt.Sprintf("video/%s", codec)
 
 	// add stun servers
 	webrtcCfg := webrtc.Configuration{
@@ -44,6 +45,7 @@ func main() {
 	config := sdk.Config{
 		WebRTC: sdk.WebRTCTransportConfig{
 			Configuration: webrtcCfg,
+			VideoMime:     mimeType,
 		},
 	}
 
@@ -68,7 +70,6 @@ func main() {
 		return
 	}
 
-	mimeType := fmt.Sprintf("video/%s", codec)
 	videoTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: mimeType, ClockRate: 90000, Channels: 0, SDPFmtpLine: "packetization-mode=1;profile-level-id=42e01f", RTCPFeedback: nil}, "video", "pion2")
 	if err != nil {
 		panic(err)
