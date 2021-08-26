@@ -1,6 +1,8 @@
 package engine
 
 import (
+	"fmt"
+
 	"github.com/pion/sdp/v3"
 	"github.com/pion/webrtc/v3"
 )
@@ -75,6 +77,7 @@ func getPublisherMediaEngine(mime string) (*webrtc.MediaEngine, error) {
 		}
 		// register the chosen mime
 		if codec.RTPCodecCapability.MimeType == mime {
+			fmt.Println("Registering code", mime, codec.PayloadType)
 			if err := me.RegisterCodec(codec, webrtc.RTPCodecTypeVideo); err != nil {
 				return nil, err
 			}
